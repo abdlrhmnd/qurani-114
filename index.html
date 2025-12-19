@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>وذكر فإن الذكرى تنفع المؤمنين</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
     
@@ -19,91 +19,104 @@
             font-family: 'Amiri', serif; 
             background-color: var(--bg-paper);
             color: var(--text-color);
-            margin: 0; padding: 20px;
+            margin: 0; padding: 10px; /* تقليل الحواف للموبايل */
             background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+            overflow-x: hidden; /* منع الاهتزاز العرضي */
         }
 
         .container { 
-            max-width: 750px; margin: auto; 
+            width: 100%;
+            max-width: 750px; 
+            margin: 10px auto; 
             background: rgba(255, 255, 255, 0.95); 
-            padding: 30px; border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(62, 39, 35, 0.1);
+            padding: 20px; /* تقليل التباعد الداخلي */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(62, 39, 35, 0.1);
             border: 1px solid var(--accent-gold);
             text-align: center;
+            box-sizing: border-box; /* لضمان حساب الأبعاد بشكل صحيح */
         }
 
-        /* تنسيق آية المقدمة */
         .quran-quote {
             font-family: 'Amiri', serif;
-            font-size: 2.2em;
+            font-size: 1.6em; /* تصغير الخط قليلاً للموبايل */
             color: var(--main-brown);
-            margin: 20px 0;
+            margin: 15px 0;
             font-weight: bold;
-            line-height: 1.4;
-            text-shadow: 1px 1px 2px rgba(198, 166, 100, 0.3);
+            line-height: 1.5;
+            text-shadow: 1px 1px 2px rgba(198, 166, 100, 0.2);
         }
 
-        h1 { font-family: 'Reem Kufi', sans-serif; color: var(--dark-brown); font-size: 1.8em; margin: 0; }
+        h1 { font-family: 'Reem Kufi', sans-serif; color: var(--dark-brown); font-size: 1.5em; margin: 0; }
 
         .achievement-box {
             background: var(--main-brown); color: white;
-            padding: 20px; border-radius: 20px; margin: 25px 0;
+            padding: 15px; border-radius: 15px; margin: 20px 0;
             cursor: pointer; transition: 0.3s;
             border-bottom: 4px solid var(--dark-brown);
         }
-        .achievement-box:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
         .surah-card { 
-            border: 1px solid #dcd3bd; margin-bottom: 15px; 
+            border: 1px solid #dcd3bd; margin-bottom: 12px; 
             border-radius: 15px; overflow: hidden; background: white;
-            text-align: right; transition: 0.3s;
+            text-align: right;
         }
 
         .surah-header { 
-            padding: 18px; cursor: pointer; display: flex; 
+            padding: 15px; cursor: pointer; display: flex; 
             justify-content: space-between; align-items: center;
-            background: #fff;
         }
 
-        .surah-name { font-weight: bold; color: var(--main-brown); font-size: 1.3em; }
+        .surah-name { font-weight: bold; color: var(--main-brown); font-size: 1.2em; }
 
-        .btn-group { padding: 0 18px 18px; display: flex; gap: 10px; }
+        .btn-group { 
+            padding: 0 15px 15px; 
+            display: flex; 
+            gap: 8px; 
+            flex-wrap: wrap; /* السماح للأزرار بالنزول لسطر جديد لو المساحة ضيقة */
+        }
 
         .read-btn {
+            flex: 1; /* جعل الأزرار تأخذ مساحات متساوية */
+            min-width: 120px; /* الحد الأدنى لعرض الزر */
             background: var(--accent-gold); color: white; border: none;
-            padding: 10px 20px; border-radius: 8px; cursor: pointer; 
-            font-family: 'Reem Kufi', sans-serif; font-size: 0.9em;
-            transition: 0.3s;
+            padding: 12px 10px; border-radius: 8px; cursor: pointer; 
+            font-family: 'Reem Kufi', sans-serif; font-size: 0.85em;
         }
-        .read-btn:hover { background: var(--main-brown); }
 
         .quran-text-area {
-            display: none; background: #fffcf5; padding: 30px;
-            margin: 15px; border: 1px solid var(--accent-gold);
-            font-size: 1.7em; line-height: 2.5; text-align: center; 
-            border-radius: 12px; position: relative;
+            display: none; background: #fffcf5; padding: 20px;
+            margin: 10px; border: 1px solid var(--accent-gold);
+            font-size: 1.4em; line-height: 2.2; text-align: center; 
+            border-radius: 12px;
         }
 
         .bismillah-frame {
             font-family: 'Amiri', serif;
             border: 2px double var(--accent-gold); 
-            display: inline-block; padding: 10px 40px; 
-            margin-bottom: 25px; border-radius: 20px; 
+            display: inline-block; padding: 5px 20px; 
+            margin-bottom: 15px; border-radius: 15px; 
             font-weight: bold; color: var(--dark-brown);
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
 
-        .tasks-list { display: none; padding: 15px; border-top: 1px solid #eee; background: #fdfbf7; }
+        .tasks-list { display: none; padding: 10px; border-top: 1px solid #eee; background: #fdfbf7; }
 
         .task-item { 
-            display: flex; align-items: center; gap: 15px; 
-            padding: 12px; border-bottom: 1px solid #f1ede4;
+            display: flex; align-items: center; gap: 10px; 
+            padding: 10px; border-bottom: 1px solid #f1ede4;
         }
         
-        input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--main-brown); cursor: pointer; }
-        label { font-size: 1.1em; cursor: pointer; }
-        .completed-text { text-decoration: line-through; color: #bcaaa4; font-style: italic; }
+        input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; }
+        label { font-size: 1em; cursor: pointer; line-height: 1.2; }
 
+        /* تعديلات خاصة للشاشات الصغيرة جداً */
+        @media (max-width: 400px) {
+            .quran-quote { font-size: 1.3em; }
+            h1 { font-size: 1.2em; }
+            .btn-group { flex-direction: column; }
+            .read-btn { width: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -114,15 +127,14 @@
         <div class="quran-quote">﴿ وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ ﴾</div>
         
         <div class="achievement-box" onclick="toggleFilter()" id="stat-box">
-            <h3 id="stat-title" style="margin:0;">جاري تحميل بياناتك...</h3>
-            <p id="stat-sub" style="margin:8px 0 0; font-size: 0.9em; opacity: 0.9;">اضغط لمشاهدة المنجز فقط</p>
+            <h3 id="stat-title" style="margin:0; font-size: 1.1em;">جاري تحميل بياناتك...</h3>
+            <p id="stat-sub" style="margin:5px 0 0; font-size: 0.85em; opacity: 0.9;">اضغط لمشاهدة المنجز فقط</p>
         </div>
 
         <div id="quran-list"></div>
     </div>
 
     <script>
-        // مصفوفة الـ 114 سورة كاملة
         const surahs = [{n:"الفاتحة", a:7}, {n:"البقرة", a:286}, {n:"آل عمران", a:200}, {n:"النساء", a:176}, {n:"المائدة", a:120}, {n:"الأنعام", a:165}, {n:"الأعراف", a:206}, {n:"الأنفال", a:75}, {n:"التوبة", a:129}, {n:"يونس", a:109}, {n:"هود", a:123}, {n:"يوسف", a:111}, {n:"الرعد", a:43}, {n:"إبراهيم", a:52}, {n:"الحجر", a:99}, {n:"النحل", a:128}, {n:"الإسراء", a:111}, {n:"الكهف", a:110}, {n:"مريم", a:98}, {n:"طه", a:135}, {n:"الأنبياء", a:112}, {n:"الحج", a:78}, {n:"المؤمنون", a:118}, {n:"النور", a:64}, {n:"الفرقان", a:77}, {n:"الشعراء", a:227}, {n:"النمل", a:93}, {n:"القصص", a:88}, {n:"العنكبوت", a:69}, {n:"الروم", a:60}, {n:"لقمان", a:34}, {n:"السجدة", a:30}, {n:"الأحزاب", a:73}, {n:"سبأ", a:54}, {n:"فاطر", a:45}, {n:"يس", a:83}, {n:"الصافات", a:182}, {n:"ص", a:88}, {n:"الزمر", a:75}, {n:"غافر", a:85}, {n:"فصلت", a:54}, {n:"الشورى", a:53}, {n:"الزخرف", a:89}, {n:"الدخان", a:59}, {n:"الجاثية", a:37}, {n:"الأحقاف", a:35}, {n:"محمد", a:38}, {n:"الفتح", a:29}, {n:"الحجرات", a:18}, {n:"ق", a:45}, {n:"الذاريات", a:60}, {n:"الطور", a:49}, {n:"النجم", a:62}, {n:"القمر", a:55}, {n:"الرحمن", a:78}, {n:"الواقعة", a:96}, {n:"الحديد", a:29}, {n:"المجادلة", a:22}, {n:"الحشر", a:24}, {n:"الممتحنة", a:13}, {n:"الصف", a:14}, {n:"الجمعة", a:11}, {n:"المنافقون", a:11}, {n:"التغابن", a:18}, {n:"الطلاق", a:12}, {n:"التحريم", a:12}, {n:"الملك", a:30}, {n:"القلم", a:52}, {n:"الحاقة", a:52}, {n:"المعارج", a:44}, {n:"نوح", a:28}, {n:"الجن", a:28}, {n:"المزمل", a:20}, {n:"المدثر", a:56}, {n:"القيامة", a:40}, {n:"الإنسان", a:31}, {n:"المرسلات", a:50}, {n:"النبأ", a:40}, {n:"النازعات", a:46}, {n:"عبس", a:42}, {n:"التكوير", a:29}, {n:"الانفطار", a:19}, {n:"المطففين", a:36}, {n:"الانشقاق", a:25}, {n:"البروج", a:22}, {n:"الطارق", a:17}, {n:"الأعلى", a:19}, {n:"الغاشية", a:26}, {n:"الفجر", a:30}, {n:"البلد", a:20}, {n:"الشمس", a:15}, {n:"الليل", a:21}, {n:"الضحى", a:11}, {n:"الشرح", a:8}, {n:"التين", a:8}, {n:"العلق", a:19}, {n:"القدر", a:5}, {n:"البينة", a:8}, {n:"الزلزلة", a:8}, {n:"العاديات", a:11}, {n:"القارعة", a:11}, {n:"التكاثر", a:8}, {n:"العصر", a:3}, {n:"الهمزة", a:9}, {n:"الفيل", a:5}, {n:"قريش", a:4}, {n:"الماعون", a:7}, {n:"الكوثر", a:3}, {n:"الكافرون", a:6}, {n:"النصر", a:3}, {n:"المسد", a:5}, {n:"الإخلاص", a:4}, {n:"الفلق", a:5}, {n:"الناس", a:6}];
 
         let showOnlyCompleted = false;
@@ -160,7 +172,7 @@
                         <div class="surah-card">
                             <div class="surah-header" onclick="toggle(${sId})">
                                 <span class="surah-name">${sId}. ${s.n}</span>
-                                <span style="font-size:0.9em; color:var(--accent-gold); font-family: sans-serif;">${sDone}/${sTotal}</span>
+                                <span style="font-size:0.85em; color:var(--accent-gold); font-family: sans-serif;">${sDone}/${sTotal}</span>
                             </div>
                             <div class="btn-group">
                                 <button class="read-btn" onclick="showText(${sId})">قراءة السورة 📖</button>
@@ -191,7 +203,7 @@
             const el = document.getElementById(`quran-text-${id}`);
             if(el.style.display === 'block') { el.style.display = 'none'; return; }
             el.style.display = 'block';
-            el.innerHTML = "<p style='font-size:0.8em;'>جاري جلب الآيات...</p>";
+            el.innerHTML = "<p style='font-size:0.75em;'>جاري جلب الآيات...</p>";
 
             try {
                 const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}`);
@@ -204,7 +216,7 @@
                 }
 
                 let bismillahHeader = (id !== 9) ? `<div class="bismillah-frame"> ${bismillah} </div><br>` : "";
-                let ayatsContent = ayahs.map(a => `<span>${a.text} <span style="color:var(--accent-gold); font-size: 0.8em;">﴿${a.numberInSurah}﴾</span></span>`).join(' ');
+                let ayatsContent = ayahs.map(a => `<span>${a.text} <span style="color:var(--accent-gold); font-size: 0.75em;">﴿${a.numberInSurah}﴾</span></span>`).join(' ');
 
                 el.innerHTML = bismillahHeader + ayatsContent;
             } catch { el.innerText = "تحتاج لاتصال بالإنترنت لعرض النص."; }
