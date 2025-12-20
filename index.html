@@ -30,6 +30,13 @@
             text-align: center;
             box-sizing: border-box;
         }
+        .search-box {
+            width: 100%; padding: 12px; margin: 10px 0 20px;
+            border-radius: 12px; border: 2px solid #ddd;
+            font-family: 'Amiri', serif; font-size: 1.1em;
+            text-align: center; outline: none; transition: 0.3s;
+        }
+        .search-box:focus { border-color: var(--accent-gold); box-shadow: 0 0 10px rgba(198, 166, 100, 0.2); }
         .quran-quote {
             font-family: 'Amiri', serif;
             font-size: 1.6em; color: var(--main-brown);
@@ -66,14 +73,6 @@
             font-size: 1.4em; line-height: 2.2; text-align: center; 
             border-radius: 12px;
         }
-        .bismillah-frame {
-            font-family: 'Amiri', serif;
-            border: 2px double var(--accent-gold); 
-            display: inline-block; padding: 5px 20px; 
-            margin-bottom: 15px; border-radius: 15px; 
-            font-weight: bold; color: var(--dark-brown);
-            font-size: 1.1em;
-        }
         .tasks-list { display: none; padding: 10px; border-top: 1px solid #eee; background: #fdfbf7; }
         .task-item { 
             display: flex; align-items: center; gap: 10px; 
@@ -93,6 +92,9 @@
     <div class="container">
         <h1>مُساعد خَتم القُرآن الكريم</h1>
         <div class="quran-quote">﴿ وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ ﴾</div>
+        
+        <input type="text" id="surahSearch" class="search-box" placeholder="ابحث عن سورة..." onkeyup="render()">
+
         <div class="achievement-box" onclick="toggleFilter()" id="stat-box">
             <h3 id="stat-title" style="margin:0; font-size: 1.1em;">جاري تحميل بياناتك...</h3>
             <p id="stat-sub" style="margin:5px 0 0; font-size: 0.85em; opacity: 0.9;">اضغط لمشاهدة المنجز فقط</p>
@@ -102,12 +104,17 @@
     <script>
         const surahs = [{n:"الفاتحة", a:7}, {n:"البقرة", a:286}, {n:"آل عمران", a:200}, {n:"النساء", a:176}, {n:"المائدة", a:120}, {n:"الأنعام", a:165}, {n:"الأعراف", a:206}, {n:"الأنفال", a:75}, {n:"التوبة", a:129}, {n:"يونس", a:109}, {n:"هود", a:123}, {n:"يوسف", a:111}, {n:"الرعد", a:43}, {n:"إبراهيم", a:52}, {n:"الحجر", a:99}, {n:"النحل", a:128}, {n:"الإسراء", a:111}, {n:"الكهف", a:110}, {n:"مريم", a:98}, {n:"طه", a:135}, {n:"الأنبياء", a:112}, {n:"الحج", a:78}, {n:"المؤمنون", a:118}, {n:"النور", a:64}, {n:"الفرقان", a:77}, {n:"الشعراء", a:227}, {n:"النمل", a:93}, {n:"القصص", a:88}, {n:"العنكبوت", a:69}, {n:"الروم", a:60}, {n:"لقمان", a:34}, {n:"السجدة", a:30}, {n:"الأحزاب", a:73}, {n:"سبأ", a:54}, {n:"فاطر", a:45}, {n:"يس", a:83}, {n:"الصافات", a:182}, {n:"ص", a:88}, {n:"الزمر", a:75}, {n:"غافر", a:85}, {n:"فصلت", a:54}, {n:"الشورى", a:53}, {n:"الزخرف", a:89}, {n:"الدخان", a:59}, {n:"الجاثية", a:37}, {n:"الأحقاف", a:35}, {n:"محمد", a:38}, {n:"الفتح", a:29}, {n:"الحجرات", a:18}, {n:"ق", a:45}, {n:"الذاريات", a:60}, {n:"الطور", a:49}, {n:"النجم", a:62}, {n:"القمر", a:55}, {n:"الرحمن", a:78}, {n:"الواقعة", a:96}, {n:"الحديد", a:29}, {n:"المجادلة", a:22}, {n:"الحشر", a:24}, {n:"الممتحنة", a:13}, {n:"الصف", a:14}, {n:"الجمعة", a:11}, {n:"المنافقون", a:11}, {n:"التغابن", a:18}, {n:"الطلاق", a:12}, {n:"التحريم", a:12}, {n:"الملك", a:30}, {n:"القلم", a:52}, {n:"الحاقة", a:52}, {n:"المعارج", a:44}, {n:"نوح", a:28}, {n:"الجن", a:28}, {n:"المزمل", a:20}, {n:"المدثر", a:56}, {n:"القيامة", a:40}, {n:"الإنسان", a:31}, {n:"المرسلات", a:50}, {n:"النبأ", a:40}, {n:"النازعات", a:46}, {n:"عبس", a:42}, {n:"التكوير", a:29}, {n:"الانفطار", a:19}, {n:"المطففين", a:36}, {n:"الانشقاق", a:25}, {n:"البروج", a:22}, {n:"الطارق", a:17}, {n:"الأعلى", a:19}, {n:"الغاشية", a:26}, {n:"الفجر", a:30}, {n:"البلد", a:20}, {n:"الشمس", a:15}, {n:"الليل", a:21}, {n:"الضحى", a:11}, {n:"الشرح", a:8}, {n:"التين", a:8}, {n:"العلق", a:19}, {n:"القدر", a:5}, {n:"البينة", a:8}, {n:"الزلزلة", a:8}, {n:"العاديات", a:11}, {n:"القارعة", a:11}, {n:"التكاثر", a:8}, {n:"العصر", a:3}, {n:"الهمزة", a:9}, {n:"الفيل", a:5}, {n:"قريش", a:4}, {n:"الماعون", a:7}, {n:"الكوثر", a:3}, {n:"الكافرون", a:6}, {n:"النصر", a:3}, {n:"المسد", a:5}, {n:"الإخلاص", a:4}, {n:"الفلق", a:5}, {n:"الناس", a:6}];
         let showOnlyCompleted = false;
+
         function render() {
             const list = document.getElementById('quran-list');
+            const searchQuery = document.getElementById('surahSearch').value.toLowerCase();
             list.innerHTML = '';
             let totalTasks = 0, doneTasks = 0, completedSurahsCounter = 0;
+
             surahs.forEach((s, i) => {
                 let sId = i + 1;
+                if (!s.n.includes(searchQuery) && searchQuery !== "") return;
+
                 let itemsHTML = '';
                 let sDone = 0, sTotal = 0;
                 for (let j = 1; j <= s.a; j += 10) {
@@ -117,25 +124,27 @@
                     let checked = localStorage.getItem(tId) === 'true';
                     if(checked) { doneTasks++; sDone++; }
                     if (!showOnlyCompleted || (showOnlyCompleted && checked)) {
-                        itemsHTML += `<div class="task-item"><input type="checkbox" id="${tId}" ${checked ? 'checked' : ''} onchange="save('${tId}', this.checked)"><label for="${tId}" class="${checked ? 'completed-text' : ''}">من الآية ${j} إلى ${end}</label></div>`;
+                        itemsHTML += `<div class="task-item"><input type="checkbox" id="${tId}" ${checked ? 'checked' : ''} onchange="save('${tId}', this.checked)"><label for="${tId}">${j} إلى ${end}</label></div>`;
                     }
                 }
                 if (sDone === sTotal && sTotal > 0) completedSurahsCounter++;
                 if (itemsHTML !== '') {
-                    list.innerHTML += `<div class="surah-card"><div class="surah-header" onclick="toggle(${sId})"><span class="surah-name">${sId}. ${s.n}</span><span style="font-size:0.85em; color:var(--accent-gold); font-family: sans-serif;">${sDone}/${sTotal}</span></div><div class="btn-group"><button class="read-btn" onclick="showText(${sId})">قراءة السورة 📖</button><button class="read-btn" style="background:#8d6e63" onclick="toggle(${sId})">المهام ✅</button></div><div id="quran-text-${sId}" class="quran-text-area"></div><div class="tasks-list" id="surah-${sId}">${itemsHTML}</div></div>`;
+                    list.innerHTML += `<div class="surah-card"><div class="surah-header" onclick="toggle(${sId})"><span class="surah-name">${sId}. ${s.n}</span><span style="font-size:0.85em; color:var(--accent-gold);">${sDone}/${sTotal}</span></div><div class="btn-group"><button class="read-btn" onclick="showText(${sId})">قراءة السورة 📖</button><button class="read-btn" style="background:#8d6e63" onclick="toggle(${sId})">المهام ✅</button></div><div id="quran-text-${sId}" class="quran-text-area"></div><div class="tasks-list" id="surah-${sId}">${itemsHTML}</div></div>`;
                 }
             });
             updateUI(doneTasks, totalTasks, completedSurahsCounter);
         }
+
         function updateUI(done, total, completedSurahs) {
             const title = document.getElementById('stat-title');
             const ratio = done / total;
             if(done === 0) title.innerText = "ابدأ رحلتك المباركة اليوم 🌿";
-            else if(ratio < 0.5) title.innerText = `أنجزت ${done} مقطعاً من القرآن الكريم`;
-            else if(ratio >= 0.5 && ratio < 1) title.innerText = "وصلت لنصف الختمة! استمر وثابر 🌟";
+            else if(ratio < 0.5) title.innerText = `أنجزت ${done} مقطعاً من القرآن`;
+            else if(ratio >= 0.5 && ratio < 1) title.innerText = "وصلت لنصف الختمة! استمر 🌟";
             else title.innerText = "مبارك الختم! جعل الله القرآن شفيعاً لك 🕋";
             checkMilestones(completedSurahs);
         }
+
         async function showText(id) {
             const el = document.getElementById(`quran-text-${id}`);
             if(el.style.display === 'block') { el.style.display = 'none'; return; }
@@ -145,30 +154,26 @@
                 const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}`);
                 const data = await res.json();
                 let ayahs = data.data.ayahs;
-                
-                let cleanBismillah = ayahs[0].text.replace(/^(بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ|بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ|باسم الله الرحمن الرحيم)/g, "").trim();
-                ayahs[0].text = cleanBismillah;
-
-                let bismillahFixed = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
-                let bismillahHeader = (id !== 9 && id !== 1) ? `<div class="bismillah-frame"> ${bismillahFixed} </div><br>` : "";
-                
                 let ayatsContent = ayahs.map(a => `<span>${a.text} <span style="color:var(--accent-gold); font-size: 0.75em;">﴿${a.numberInSurah}﴾</span></span>`).join(' ');
-                el.innerHTML = bismillahHeader + ayatsContent;
-            } catch { el.innerText = "تحتاج لاتصال بالإنترنت لعرض النص."; }
+                el.innerHTML = ayatsContent;
+            } catch { el.innerText = "تحتاج لاتصال بالإنترنت."; }
         }
+
         function checkMilestones(count) {
-            const msgs = { 1: "بداية الغيث قطرة.. مبارك لك أول سورة!", 10: "عشر سور! أنت الآن تثبت لنفسك أنك قادر..", 60: "تجاوزت النصف! الله يصطفي من عباده من يحفظ كتابه.", 114: "الله أكبر! ختمت كتاب الله.." };
+            const msgs = { 1: "بداية الغيث قطرة.. مبارك لك أول سورة!", 10: "عشر سور! استمر..", 114: "الله أكبر! ختمت كتاب الله.." };
             if (msgs[count] && !sessionStorage.getItem('m_' + count)) {
-                alert("✨ رسالة تشجيعية:\n\n" + msgs[count]);
+                alert(msgs[count]);
                 sessionStorage.setItem('m_' + count, 'true');
             }
         }
+
         function toggle(id) {
             const el = document.getElementById(`surah-${id}`);
             const visible = el.style.display === 'block';
             document.querySelectorAll('.tasks-list').forEach(l => l.style.display = 'none');
             el.style.display = visible ? 'none' : 'block';
         }
+
         function toggleFilter() { showOnlyCompleted = !showOnlyCompleted; render(); }
         function save(id, val) { localStorage.setItem(id, val); render(); }
         render();
