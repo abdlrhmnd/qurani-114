@@ -49,13 +49,15 @@
             position: absolute; right: 8px; top: 52%;
             transform: translateY(-50%); font-size: 0.7em; color: var(--accent-gold);
         }
+        /* البسملة المزخرفة الخاصة بنا */
         .bismillah-frame {
             font-family: 'Amiri', serif;
             border: 2px double var(--accent-gold); 
-            display: inline-block; padding: 4px 20px; 
-            margin: 10px 0 15px; border-radius: 15px; 
+            display: inline-block; padding: 4px 25px; 
+            margin: 10px 0 20px; border-radius: 15px; 
             font-weight: bold; color: var(--dark-brown);
-            font-size: 1.1em;
+            font-size: 1.2em;
+            background: #fffdf9;
         }
         .quran-quote {
             font-size: 1.5em; color: var(--main-brown);
@@ -71,16 +73,18 @@
             border: 1px solid #dcd3bd; margin-bottom: 10px; 
             border-radius: 15px; background: white; text-align: right;
         }
-        .surah-header { padding: 12px; cursor: pointer; display: flex; justify-content: space-between; }
+        .surah-header { padding: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;}
         .btn-group { padding: 0 12px 12px; display: flex; gap: 5px; }
         .read-btn {
             flex: 1; background: var(--accent-gold); color: white; border: none;
             padding: 8px; border-radius: 8px; font-family: 'Reem Kufi', sans-serif; font-size: 0.8em;
+            cursor: pointer;
         }
         .quran-text-area {
-            display: none; background: #fffcf5; padding: 15px;
+            display: none; background: #fffcf5; padding: 20px;
             margin: 10px; border: 1px solid var(--accent-gold);
-            font-size: 1.3em; line-height: 2.2; text-align: center; border-radius: 12px;
+            font-size: 1.5em; line-height: 2.5; text-align: center; border-radius: 12px;
+            word-spacing: 3px;
         }
         .tasks-list { display: none; padding: 10px; border-top: 1px solid #eee; }
         .task-item { display: flex; align-items: center; gap: 10px; padding: 8px; border-bottom: 1px solid #f1ede4; }
@@ -125,37 +129,31 @@
                     let checked = localStorage.getItem(tId) === 'true';
                     if(checked) { done++; sDone++; }
                     if (!showOnlyCompleted || checked) {
-                        itemsHTML += `<div class="task-item"><input type="checkbox" id="${tId}" ${checked ? 'checked' : ''} onchange="save('${tId}', this.checked)"><label for="${tId}">${j} إلى ${end}</label></div>`;
+                        itemsHTML += `<div class="task-item"><input type="checkbox" id="${tId}" ${checked ? 'checked' : ''} onchange="save('${tId}', this.checked)"><label for="${tId}">الآيات ${j} - ${end}</label></div>`;
                     }
                 }
                 if (itemsHTML) {
-                    list.innerHTML += `<div class="surah-card"><div class="surah-header" onclick="toggle(${sId})"><span>${sId}. ${s.n}</span><span style="color:var(--accent-gold)">${sDone}/${sTotal}</span></div><div class="btn-group"><button class="read-btn" onclick="showText(${sId})">قراءة 📖</button><button class="read-btn" style="background:#8d6e63" onclick="toggle(${sId})">مهام ✅</button></div><div id="quran-text-${sId}" class="quran-text-area"></div><div class="tasks-list" id="surah-${sId}">${itemsHTML}</div></div>`;
+                    list.innerHTML += `<div class="surah-card"><div class="surah-header" onclick="toggle(${sId})"><span>${sId}. ${s.n}</span><span style="color:var(--accent-gold)">${sDone}/${sTotal}</span></div><div class="btn-group"><button class="read-btn" onclick="showText(${sId})">قراءة السورة 📖</button><button class="read-btn" style="background:#8d6e63" onclick="toggle(${sId})">المهام ✅</button></div><div id="quran-text-${sId}" class="quran-text-area"></div><div class="tasks-list" id="surah-${sId}">${itemsHTML}</div></div>`;
                 }
             });
-            document.getElementById('stat-title').innerText = done === 0 ? "ابدأ رحلتك المباركة 🌿" : `أنجزت ${done} مقطعاً من القرآن`;
+            document.getElementById('stat-title').innerText = done === 0 ? "ابدأ رحلتك المباركة 🌿" : `أنجزت ${done} مقطعاً من القرآن الكريم`;
         }
 
         async function showText(id) {
             const el = document.getElementById(`quran-text-${id}`);
             if(el.style.display === 'block') { el.style.display = 'none'; return; }
             el.style.display = 'block';
-            el.innerHTML = "جاري التحميل...";
+            el.innerHTML = "<p style='font-size:0.8em'>جاري جلب الآيات...</p>";
             try {
-                const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}`);
+                const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}/quran-simple`);
                 const data = await res.json();
                 let ayahs = data.data.ayahs;
 
-
-                if (id !== 1 && id !== 9) {
-                    
-                    ayahs[0].text = ayahs[0].text.replace(/^بِسْمِ\s+اللَّهِ\s+الرَّحْمَٰنِ\s+الرَّحِيمِ\s*/, "").trim();
-                    ayahs[0].text = ayahs[0].text.replace(/^بِسْمِ\s+اللهِ\s+الرَّحْمٰنِ\s+الرَّحِيْمِ\s*/, "").trim();
-                }
-
-                let bismillahFixed = (id !== 9 && id !== 1) ? `<div class="bismillah-frame">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div><br>` : "";
+                let bismillahFixed = (id !== 9) ? `<div class="bismillah-frame">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div><br>` : "";
+                
                 let content = ayahs.map(a => `${a.text} <span style="color:var(--accent-gold); font-size: 0.7em;">﴿${a.numberInSurah}﴾</span>`).join(' ');
                 el.innerHTML = bismillahFixed + content;
-            } catch { el.innerHTML = "خطأ في الاتصال."; }
+            } catch { el.innerHTML = "يرجى التحقق من الاتصال بالإنترنت."; }
         }
 
         function toggle(id) {
