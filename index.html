@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مساعد ختم القرآن</title>
+    <title>وذكر فإن الذكرى تنفع المؤمنين</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -94,10 +94,15 @@
                 const data = await res.json();
                 let ayahs = data.data.ayahs;
                 
-                let header = (id !== 1 && id !== 9) ? `<div class="bismillah-frame">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div><br>` : "";
-                
+                let header = "";
+                // التعديل الجوهري هنا:
                 if (id !== 1 && id !== 9) {
+                    header = `<div class="bismillah-frame">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div><br>`;
+                    // نحذف البسملة المدمجة فقط في السور غير الفاتحة وغير التوبة
                     ayahs[0].text = ayahs[0].text.replace(/^بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\s*/, "").trim();
+                } else if (id === 1) {
+                    // سورة الفاتحة تترك كما هي تماماً دون برواز لأن البسملة آية رقم 1 فيها
+                    header = "";
                 }
 
                 let content = ayahs.map(a => `${a.text} <span style="color:var(--accent-gold); font-size: 0.7em;">﴿${a.numberInSurah}﴾</span>`).join(' ');
