@@ -145,11 +145,11 @@
                 const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}`);
                 const data = await res.json();
                 let ayahs = data.data.ayahs;
-                let bismillah = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
-                if (ayahs[0].text.includes(bismillah)) {
-                    ayahs[0].text = ayahs[0].text.replace(bismillah, "").trim();
+                let bismillahText = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+                if (ayahs[0].text.includes(bismillahText)) {
+                    ayahs[0].text = ayahs[0].text.replace(bismillahText, "").trim();
                 }
-                let bismillahHeader = (id !== 9 && id !== 1) ? `<div class="bismillah-frame"> ${bismillah} </div><br>` : "";
+                let bismillahHeader = (id !== 9 && id !== 1) ? `<div class="bismillah-frame"> ${bismillahText} </div><br>` : "";
                 let ayatsContent = ayahs.map(a => `<span>${a.text} <span style="color:var(--accent-gold); font-size: 0.75em;">﴿${a.numberInSurah}﴾</span></span>`).join(' ');
                 el.innerHTML = bismillahHeader + ayatsContent;
             } catch { el.innerText = "تحتاج لاتصال بالإنترنت لعرض النص."; }
