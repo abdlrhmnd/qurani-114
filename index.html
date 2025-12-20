@@ -29,24 +29,40 @@
             border: 1px solid var(--accent-gold);
             text-align: center;
             box-sizing: border-box;
+            position: relative;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        .search-container {
+            position: relative;
+            width: 150px;
         }
         .search-box {
-            width: 100%; padding: 12px; margin: 10px 0 20px;
-            border-radius: 12px; border: 2px solid #ddd;
-            font-family: 'Amiri', serif; font-size: 1.1em;
-            text-align: center; outline: none; transition: 0.3s;
+            width: 100%; padding: 8px 30px 8px 10px;
+            border-radius: 20px; border: 1px solid var(--accent-gold);
+            font-family: 'Amiri', serif; font-size: 0.9em;
+            outline: none; transition: 0.3s;
+            background: white;
         }
-        .search-box:focus { border-color: var(--accent-gold); box-shadow: 0 0 10px rgba(198, 166, 100, 0.2); }
+        .search-icon {
+            position: absolute; right: 10px; top: 50%;
+            transform: translateY(-50%); font-size: 0.8em; color: var(--accent-gold);
+        }
         .quran-quote {
             font-family: 'Amiri', serif;
             font-size: 1.6em; color: var(--main-brown);
             margin: 15px 0; font-weight: bold; line-height: 1.5;
             text-shadow: 1px 1px 2px rgba(198, 166, 100, 0.2);
         }
-        h1 { font-family: 'Reem Kufi', sans-serif; color: var(--dark-brown); font-size: 1.5em; margin: 0; }
+        h1 { font-family: 'Reem Kufi', sans-serif; color: var(--dark-brown); font-size: 1.3em; margin: 0; flex-grow: 1; text-align: right; }
         .achievement-box {
             background: var(--main-brown); color: white;
-            padding: 15px; border-radius: 15px; margin: 20px 0;
+            padding: 15px; border-radius: 15px; margin: 15px 0;
             cursor: pointer; transition: 0.3s;
             border-bottom: 4px solid var(--dark-brown);
         }
@@ -59,13 +75,13 @@
             padding: 15px; cursor: pointer; display: flex; 
             justify-content: space-between; align-items: center;
         }
-        .surah-name { font-weight: bold; color: var(--main-brown); font-size: 1.2em; }
+        .surah-name { font-weight: bold; color: var(--main-brown); font-size: 1.1em; }
         .btn-group { padding: 0 15px 15px; display: flex; gap: 8px; flex-wrap: wrap; }
         .read-btn {
-            flex: 1; min-width: 120px;
+            flex: 1; min-width: 100px;
             background: var(--accent-gold); color: white; border: none;
-            padding: 12px 10px; border-radius: 8px; cursor: pointer; 
-            font-family: 'Reem Kufi', sans-serif; font-size: 0.85em;
+            padding: 10px; border-radius: 8px; cursor: pointer; 
+            font-family: 'Reem Kufi', sans-serif; font-size: 0.8em;
         }
         .quran-text-area {
             display: none; background: #fffcf5; padding: 20px;
@@ -78,26 +94,30 @@
             display: flex; align-items: center; gap: 10px; 
             padding: 10px; border-bottom: 1px solid #f1ede4;
         }
-        input[type="checkbox"] { width: 20px; height: 20px; flex-shrink: 0; }
-        label { font-size: 1em; cursor: pointer; line-height: 1.2; }
+        input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; }
+        label { font-size: 0.95em; cursor: pointer; }
         @media (max-width: 400px) {
             .quran-quote { font-size: 1.3em; }
-            h1 { font-size: 1.2em; }
-            .btn-group { flex-direction: column; }
-            .read-btn { width: 100%; }
+            .header-top { flex-direction: row; }
+            .search-container { width: 120px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>مُساعد خَتم القُرآن الكريم</h1>
+        <div class="header-top">
+            <h1>مُساعد خَتم القُرآن</h1>
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="surahSearch" class="search-box" placeholder="بحث..." onkeyup="render()">
+            </div>
+        </div>
+
         <div class="quran-quote">﴿ وَلَقَدْ يَسَّرْنَا الْقُرْآنَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍ ﴾</div>
-        
-        <input type="text" id="surahSearch" class="search-box" placeholder="ابحث عن سورة..." onkeyup="render()">
 
         <div class="achievement-box" onclick="toggleFilter()" id="stat-box">
-            <h3 id="stat-title" style="margin:0; font-size: 1.1em;">جاري تحميل بياناتك...</h3>
-            <p id="stat-sub" style="margin:5px 0 0; font-size: 0.85em; opacity: 0.9;">اضغط لمشاهدة المنجز فقط</p>
+            <h3 id="stat-title" style="margin:0; font-size: 1.1em;">جاري التحميل...</h3>
+            <p id="stat-sub" style="margin:5px 0 0; font-size: 0.8em; opacity: 0.9;">اضغط لمشاهدة المنجز فقط</p>
         </div>
         <div id="quran-list"></div>
     </div>
@@ -107,13 +127,13 @@
 
         function render() {
             const list = document.getElementById('quran-list');
-            const searchQuery = document.getElementById('surahSearch').value.toLowerCase();
+            const searchQuery = document.getElementById('surahSearch').value.trim();
             list.innerHTML = '';
             let totalTasks = 0, doneTasks = 0, completedSurahsCounter = 0;
 
             surahs.forEach((s, i) => {
                 let sId = i + 1;
-                if (!s.n.includes(searchQuery) && searchQuery !== "") return;
+                if (searchQuery !== "" && !s.n.includes(searchQuery)) return;
 
                 let itemsHTML = '';
                 let sDone = 0, sTotal = 0;
@@ -129,7 +149,7 @@
                 }
                 if (sDone === sTotal && sTotal > 0) completedSurahsCounter++;
                 if (itemsHTML !== '') {
-                    list.innerHTML += `<div class="surah-card"><div class="surah-header" onclick="toggle(${sId})"><span class="surah-name">${sId}. ${s.n}</span><span style="font-size:0.85em; color:var(--accent-gold);">${sDone}/${sTotal}</span></div><div class="btn-group"><button class="read-btn" onclick="showText(${sId})">قراءة السورة 📖</button><button class="read-btn" style="background:#8d6e63" onclick="toggle(${sId})">المهام ✅</button></div><div id="quran-text-${sId}" class="quran-text-area"></div><div class="tasks-list" id="surah-${sId}">${itemsHTML}</div></div>`;
+                    list.innerHTML += `<div class="surah-card"><div class="surah-header" onclick="toggle(${sId})"><span class="surah-name">${sId}. ${s.n}</span><span style="font-size:0.85em; color:var(--accent-gold);">${sDone}/${sTotal}</span></div><div class="btn-group"><button class="read-btn" onclick="showText(${sId})">قراءة 📖</button><button class="read-btn" style="background:#8d6e63" onclick="toggle(${sId})">المهام ✅</button></div><div id="quran-text-${sId}" class="quran-text-area"></div><div class="tasks-list" id="surah-${sId}">${itemsHTML}</div></div>`;
                 }
             });
             updateUI(doneTasks, totalTasks, completedSurahsCounter);
@@ -139,9 +159,9 @@
             const title = document.getElementById('stat-title');
             const ratio = done / total;
             if(done === 0) title.innerText = "ابدأ رحلتك المباركة اليوم 🌿";
-            else if(ratio < 0.5) title.innerText = `أنجزت ${done} مقطعاً من القرآن`;
+            else if(ratio < 0.5) title.innerText = `أنجزت ${done} مقطعاً`;
             else if(ratio >= 0.5 && ratio < 1) title.innerText = "وصلت لنصف الختمة! استمر 🌟";
-            else title.innerText = "مبارك الختم! جعل الله القرآن شفيعاً لك 🕋";
+            else title.innerText = "مبارك الختم! 🕋";
             checkMilestones(completedSurahs);
         }
 
@@ -154,9 +174,17 @@
                 const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}`);
                 const data = await res.json();
                 let ayahs = data.data.ayahs;
+
+                if (id !== 1) {
+                    const bismillah = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+                    if (ayahs[0].text.startsWith(bismillah)) {
+                        ayahs[0].text = ayahs[0].text.substring(bismillah.length).trim();
+                    }
+                }
+
                 let ayatsContent = ayahs.map(a => `<span>${a.text} <span style="color:var(--accent-gold); font-size: 0.75em;">﴿${a.numberInSurah}﴾</span></span>`).join(' ');
                 el.innerHTML = ayatsContent;
-            } catch { el.innerText = "تحتاج لاتصال بالإنترنت."; }
+            } catch { el.innerText = "فشل في جلب النص."; }
         }
 
         function checkMilestones(count) {
