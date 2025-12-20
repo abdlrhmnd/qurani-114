@@ -3,89 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>وذكر فإن الذكرى تنفع المؤمنين</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+    <title>مساعد ختم القرآن</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --dark-brown: #3e2723;
-            --main-brown: #5d4037;
-            --accent-gold: #c6a664;
-            --bg-paper: #f4eee0;
-            --text-color: #2b1d1a;
+            --dark-brown: #3e2723; --main-brown: #5d4037; --accent-gold: #c6a664;
+            --bg-paper: #f4eee0; --text-color: #2b1d1a;
         }
         body { 
-            font-family: 'Amiri', serif; 
-            background-color: var(--bg-paper);
-            color: var(--text-color);
-            margin: 0; padding: 10px;
+            font-family: 'Amiri', serif; background-color: var(--bg-paper);
+            color: var(--text-color); margin: 0; padding: 10px;
             background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
         }
         .container { 
             width: 100%; max-width: 750px; margin: 10px auto; 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 20px; border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(62, 39, 35, 0.1);
-            border: 1px solid var(--accent-gold);
-            text-align: center;
-            position: relative;
+            background: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(62, 39, 35, 0.1); border: 1px solid var(--accent-gold);
+            text-align: center; position: relative;
         }
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .search-container {
-            position: relative;
-            width: 130px;
-        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .search-container { position: relative; width: 130px; }
         .search-box {
-            width: 100%; padding: 6px 25px 6px 8px;
-            border-radius: 15px; border: 1px solid var(--accent-gold);
-            font-family: 'Amiri', serif; font-size: 0.85em;
-            outline: none;
+            width: 100%; padding: 6px 25px 6px 8px; border-radius: 15px;
+            border: 1px solid var(--accent-gold); font-family: 'Amiri', serif; font-size: 0.85em; outline: none;
         }
-        .search-icon {
-            position: absolute; right: 8px; top: 52%;
-            transform: translateY(-50%); font-size: 0.7em; color: var(--accent-gold);
-        }
-        /* البسملة المزخرفة الخاصة بنا */
+        .search-icon { position: absolute; right: 8px; top: 52%; transform: translateY(-50%); font-size: 0.7em; color: var(--accent-gold); }
         .bismillah-frame {
-            font-family: 'Amiri', serif;
-            border: 2px double var(--accent-gold); 
-            display: inline-block; padding: 4px 25px; 
-            margin: 10px 0 20px; border-radius: 15px; 
-            font-weight: bold; color: var(--dark-brown);
-            font-size: 1.2em;
-            background: #fffdf9;
+            font-family: 'Amiri', serif; border: 2px double var(--accent-gold); 
+            display: inline-block; padding: 4px 25px; margin: 10px 0 20px; border-radius: 15px; 
+            font-weight: bold; color: var(--dark-brown); font-size: 1.2em; background: #fffdf9;
         }
-        .quran-quote {
-            font-size: 1.5em; color: var(--main-brown);
-            margin: 10px 0; font-weight: bold;
-        }
+        .quran-quote { font-size: 1.5em; color: var(--main-brown); margin: 10px 0; font-weight: bold; }
         h1 { font-family: 'Reem Kufi', sans-serif; color: var(--dark-brown); font-size: 1.2em; margin: 0; }
-        .achievement-box {
-            background: var(--main-brown); color: white;
-            padding: 12px; border-radius: 15px; margin-bottom: 15px;
-            cursor: pointer;
-        }
-        .surah-card { 
-            border: 1px solid #dcd3bd; margin-bottom: 10px; 
-            border-radius: 15px; background: white; text-align: right;
-        }
+        .achievement-box { background: var(--main-brown); color: white; padding: 12px; border-radius: 15px; margin-bottom: 15px; cursor: pointer; }
+        .surah-card { border: 1px solid #dcd3bd; margin-bottom: 10px; border-radius: 15px; background: white; text-align: right; }
         .surah-header { padding: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;}
         .btn-group { padding: 0 12px 12px; display: flex; gap: 5px; }
-        .read-btn {
-            flex: 1; background: var(--accent-gold); color: white; border: none;
-            padding: 8px; border-radius: 8px; font-family: 'Reem Kufi', sans-serif; font-size: 0.8em;
-            cursor: pointer;
-        }
-        .quran-text-area {
-            display: none; background: #fffcf5; padding: 20px;
-            margin: 10px; border: 1px solid var(--accent-gold);
-            font-size: 1.5em; line-height: 2.5; text-align: center; border-radius: 12px;
-            word-spacing: 3px;
-        }
+        .read-btn { flex: 1; background: var(--accent-gold); color: white; border: none; padding: 8px; border-radius: 8px; font-family: 'Reem Kufi', sans-serif; font-size: 0.8em; cursor: pointer; }
+        .quran-text-area { display: none; background: #fffcf5; padding: 20px; margin: 10px; border: 1px solid var(--accent-gold); font-size: 1.5em; line-height: 2.5; text-align: center; border-radius: 12px; }
         .tasks-list { display: none; padding: 10px; border-top: 1px solid #eee; }
         .task-item { display: flex; align-items: center; gap: 10px; padding: 8px; border-bottom: 1px solid #f1ede4; }
     </style>
@@ -114,46 +69,40 @@
             const list = document.getElementById('quran-list');
             const search = document.getElementById('surahSearch').value.trim();
             list.innerHTML = '';
-            let total = 0, done = 0;
-
+            let done = 0;
             surahs.forEach((s, i) => {
                 let sId = i + 1;
                 if (search !== "" && !s.n.includes(search)) return;
-                
-                let sDone = 0, sTotal = 0;
-                let itemsHTML = '';
+                let sDone = 0, sTotal = 0, itemsHTML = '';
                 for (let j = 1; j <= s.a; j += 10) {
-                    sTotal++; total++;
-                    let end = Math.min(j + 9, s.a);
-                    let tId = `s${sId}-a${j}-${end}`;
-                    let checked = localStorage.getItem(tId) === 'true';
+                    sTotal++;
+                    let end = Math.min(j + 9, s.a), tId = `s${sId}-a${j}-${end}`, checked = localStorage.getItem(tId) === 'true';
                     if(checked) { done++; sDone++; }
-                    if (!showOnlyCompleted || checked) {
-                        itemsHTML += `<div class="task-item"><input type="checkbox" id="${tId}" ${checked ? 'checked' : ''} onchange="save('${tId}', this.checked)"><label for="${tId}">الآيات ${j} - ${end}</label></div>`;
-                    }
+                    if (!showOnlyCompleted || checked) itemsHTML += `<div class="task-item"><input type="checkbox" id="${tId}" ${checked ? 'checked' : ''} onchange="save('${tId}', this.checked)"><label for="${tId}">الآيات ${j} - ${end}</label></div>`;
                 }
-                if (itemsHTML) {
-                    list.innerHTML += `<div class="surah-card"><div class="surah-header" onclick="toggle(${sId})"><span>${sId}. ${s.n}</span><span style="color:var(--accent-gold)">${sDone}/${sTotal}</span></div><div class="btn-group"><button class="read-btn" onclick="showText(${sId})">قراءة السورة 📖</button><button class="read-btn" style="background:#8d6e63" onclick="toggle(${sId})">المهام ✅</button></div><div id="quran-text-${sId}" class="quran-text-area"></div><div class="tasks-list" id="surah-${sId}">${itemsHTML}</div></div>`;
-                }
+                if (itemsHTML) list.innerHTML += `<div class="surah-card"><div class="surah-header" onclick="toggle(${sId})"><span>${sId}. ${s.n}</span><span style="color:var(--accent-gold)">${sDone}/${sTotal}</span></div><div class="btn-group"><button class="read-btn" onclick="showText(${sId})">قراءة 📖</button><button class="read-btn" style="background:#8d6e63" onclick="toggle(${sId})">المهام ✅</button></div><div id="quran-text-${sId}" class="quran-text-area"></div><div class="tasks-list" id="surah-${sId}">${itemsHTML}</div></div>`;
             });
-            document.getElementById('stat-title').innerText = done === 0 ? "ابدأ رحلتك المباركة 🌿" : `أنجزت ${done} مقطعاً من القرآن الكريم`;
+            document.getElementById('stat-title').innerText = `أنجزت ${done} مقطعاً من القرآن الكريم`;
         }
 
         async function showText(id) {
             const el = document.getElementById(`quran-text-${id}`);
             if(el.style.display === 'block') { el.style.display = 'none'; return; }
-            el.style.display = 'block';
-            el.innerHTML = "<p style='font-size:0.8em'>جاري جلب الآيات...</p>";
+            el.style.display = 'block'; el.innerHTML = "جاري التحميل...";
             try {
-                const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}/quran-simple`);
+                const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}`);
                 const data = await res.json();
                 let ayahs = data.data.ayahs;
-
-                let bismillahFixed = (id !== 9) ? `<div class="bismillah-frame">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div><br>` : "";
                 
+                let header = (id !== 1 && id !== 9) ? `<div class="bismillah-frame">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div><br>` : "";
+                
+                if (id !== 1 && id !== 9) {
+                    ayahs[0].text = ayahs[0].text.replace(/^بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\s*/, "").trim();
+                }
+
                 let content = ayahs.map(a => `${a.text} <span style="color:var(--accent-gold); font-size: 0.7em;">﴿${a.numberInSurah}﴾</span>`).join(' ');
-                el.innerHTML = bismillahFixed + content;
-            } catch { el.innerHTML = "يرجى التحقق من الاتصال بالإنترنت."; }
+                el.innerHTML = header + content;
+            } catch { el.innerHTML = "خطأ في الاتصال."; }
         }
 
         function toggle(id) {
@@ -162,9 +111,8 @@
             document.querySelectorAll('.tasks-list').forEach(l => l.style.display = 'none');
             el.style.display = isVisible ? 'none' : 'block';
         }
-
-        function toggleFilter() { showOnlyCompleted = !showOnlyCompleted; render(); }
         function save(id, val) { localStorage.setItem(id, val); render(); }
+        function toggleFilter() { showOnlyCompleted = !showOnlyCompleted; render(); }
         render();
     </script>
 </body>
